@@ -1,6 +1,7 @@
--- Active: 1700974372596@@127.0.0.1@3306
+-- Active: 1700974372596@@127.0.0.1@3306@mayya
 -- creating tables:
 create DATABASE mayya;
+use mayya;
 -- Write a SQL statement to create a simple table countries including columns country_id,country_name and region_id.
 drop table country;
 create table if not exists countries(
@@ -1145,6 +1146,51 @@ create INDEX  indx_job_id on job_history(job_id);
 select * from job_history;
 -- Write a SQL statement to drop the index indx_job_id from job_history table.
 alter table job_history drop index indx_job_id;
+
+--  Write a query to display the names (first_name, last_name) using alias name "First Name", "Last Name"
+select * from employees;
+select first_name as "First name",last_name  as "Last name" from employees;
+-- Write a query to get unique department ID from employee table.
+select distinct department_id  from employees;
+-- Write a query to get all employee details from the employee table order by first name, descending.
+select * from employees order by first_name desc;
+-- Write a query to get the names (first_name, last_name), salary, PF of all the employees (PF is calculated as 15% of salary).
+select  concat(first_name,last_name) as names, 0.15*salary as PF from employees;
+-- Write a query to get the employee ID, names (first_name, last_name), salary in ascending order of salary.
+select concat(first_name,last_name) as names, salary  from employees order by salary asc; 
+--  Write a query to get the total salaries payable to employees.
+select sum(salary) from employees;
+--  Write a query to get the maximum and minimum salary from employees table.
+select min(salary),max(salary) from employees;
+-- Write a query to get the average salary and number of employees in the employees table.
+select avg(salary),count(employee_id) from employees;
+-- Write a query to get the number of employees working with the company.
+select count(employee_id) from employees; 
+-- 10. Write a query to get the number of jobs available in the employees table.
+select count(distinct job_id) from employees;
+-- Write a query get all first name from employees table in upper case.
+select upper(first_name) from employees;
+-- Write a query to get the first 3 characters of first name from employees table.
+select substring(first_name,1,3) from employees;
+--  Write a query to calculate 171*214+625.
+select 176*214+625;
+-- Write a query to get first name from employees table after removing white spaces from both side.
+select trim(trailing ' ' from first_name) from employees;
+select trim(leading  ' ' from first_name) from employees;
+select trim(both ' ' from first_name) from employees;
+-- Write a query to get the length of the employee names (first_name, last_name) from employees table.
+select length(concat(first_name, last_name)) as names from employees;
+-- Write a query to check if the first_name fields of the employees table contains numbers.
+select * from employees where FIRST_NAME REGEXP '[0-9]';
+--  Write a query to select first 10 records from a table.
+select * from employees limit 10;
+-- Write a query to get monthly salary (round 2 decimal places) of each and every employee
+-- Note : Assume the salary field provides the 'annual salary' information.
+select * from employees;
+select round(salary/12,2) from employees;
+
+
+
 
 
 
