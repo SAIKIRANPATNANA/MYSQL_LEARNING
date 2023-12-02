@@ -1,4 +1,4 @@
--- Active: 1700974372596@@127.0.0.1@3306@mayya
+-- Active: 1700974372596@@127.0.0.1@3306
 -- creating tables:
 create DATABASE mayya;
 use mayya;
@@ -1188,6 +1188,30 @@ select * from employees limit 10;
 -- Note : Assume the salary field provides the 'annual salary' information.
 select * from employees;
 select round(salary/12,2) from employees;
+-- 1. Write a query to display the name (first_name, last_name) and salary for all employees whose salary is not in the range $10,000 through $15,000.
+select concat(first_name,last_name) as names  from employees where salary  >10000 and salary <15000;
+-- . Write a query to display the name (firs_name, last_name) and department ID of all employees in departments 30 or 100 in ascending order.
+select concat(first_name,last_name) as names, department_id from employees WHERE department_id = 30 or department_id = 100 order by department_id asc;
+select * from employees;
+-- 3. Write a query to display the name (first_name, last_name) and salary for all employees whose salary is not in the range $10,000 through $15,000 and are in department 30 or 100.
+select CONCAT(first_name, last_name),salary from employees where (salary>15000 or salary <10000) and (department_id =30 or department_id =100);
+-- 4. Write a query to display the name (first_name, last_name) and hire date for all employees who were hired in 1987.
+select CONCAT(first_name,last_name),hire_date as names from employees where hire_date like '1987%';
+-- Write a query to display the first_name of all employees who have both "b" and "c" in their first name.
+select first_name from employees where first_name like '%b%' and first_name like '%c%';
+-- Write a query to display the last name, job, and salary for all employees whose job is that of a Programmer or a Shipping Clerk, and whose salary is not equal to $4,500, $10,000, or $15,000
+select last_name,job_id,salary from employees where (job_id like '%prog%' or job_id like '%clerk%') and (salary != 4500 and salary!=10000 and salary!=15000);
+-- Write a query to display the last name of employees whose names have exactly 6 characters.
+select last_name from employees where length(last_name)=6;
+select first_name,last_name from employees where length(concat(first_name,last_name))=6;
+-- Write a query to display the last name of employees having 'e' as the third character.
+select last_name from employees where last_name like '%e__';
+-- Write a query to display the jobs/designations available in the employees table.
+select distinct job_id from employees;
+-- Write a query to display the name (first_name, last_name), salary and PF (15% of salary) of all employees.
+select concat(first_name,last_name) as names,salary, 0.15*salary as pf from employees;
+-- Write a query to select all record from employees where last name in 'BLAKE', 'SCOTT', 'KING' and 'FORD'.
+select * from employees where last_name like '%BLAKE%' or last_name like '%SCOTT%' or last_name like '%KING%' or last_name like '%FORD%';
 
 
 
@@ -1200,4 +1224,11 @@ select round(salary/12,2) from employees;
 
 
 
+
+
+
+
+
+
+6. Write a query to display the last name, job, and salary for all employees whose job is that of a Programmer or a Shipping Clerk, and whose salary is not equal to $4,500, $10,000, or $15,000
 
