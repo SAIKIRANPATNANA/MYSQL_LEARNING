@@ -709,6 +709,7 @@ update employees set SALARY = SALARY + 0.20*SALARY, COMMISSION_PCT = COMMISSION_
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+create data
 use mayya;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -1242,6 +1243,57 @@ show tables;
 select job_id, max(salary) from employees where salary>=4000 GROUP BY job_id;
 --  Write a query to get the average salary for all departments employing more than 10 employees.
 select department_id,avg(salary),count(`EMPLOYEE_ID`) from employees  GROUP BY department_id having count(`EMPLOYEE_ID`)>10;
+--  Write a query to find the name (first_name, last_name) and the salary of the employees who have a higher salary than the employee whose last_name='Bull'.
+select concat(first_name,last_name) as name,salary as name from employees where salary > (select salary from employees where last_name like '%BULL%');
+select salary from employees where last_name like '%bull%'; 
+--  Write a query to find the name (first_name, last_name) of all employees who works in the IT department.
+select concat(first_name,last_name) as name from employees where job_id like '%IT%';
+-- Write a query to find the name (first_name, last_name) of the employees who have a manager and worked in a USA based department.
+select * from countries;
+select * from employees;
+
+select * from departments;
+select * from locations;
+select * from locations where country_id like 'US';
+select concat(first_name,last_name) as name from employees where manager_id in (select manager_id from departments where location_id in (select location_id from locations where country_id ='US' ));
+--  Write a query to find the name (first_name, last_name) of the employees who are managers.
+select * from employees;
+select concat(first_name,last_name) as name from employees where employee_id in (select manager_id
+ from employees);
+--  Write a query to find the name (first_name, last_name), and salary of the employees whose salary is greater than the average salary.
+select concat(first_name,last_name),salary from employees where salary > (select avg(salary) from employees);
+--  Write a query to find the name (first_name, last_name), and salary of the employees whose salary is equal to the minimum salary for their job grade.
+select concat(first_name,last_name) as name ,salary from employees where salary in (select min(salary) from employees where job_id in (select distinct job_id from employees) group by job_id) order by salary;
+select min(salary),job_id as name from employees group by job_id order by min(salary);
+--  Write a query to find the name (first_name, last_name), and salary of the employees who earns more than the average salary and works in any of the IT departments.
+select concat(first_name,last_name) as name ,salary from employees where (salary >( select avg(salary) from employees ) and department_id = (select department_id from departments where department_name = 'IT')) ;
+--  Write a query to find the name (first_name, last_name), and salary of the employees who earns more than the earning of Mr. Bell.
+select CONCAT(first_name,last_name) as name , salary from employees where salary > (select salary from employees where first_name like '%bell' or last_name like '%bell');
+--  Write a query to find the name (first_name, last_name), and salary of the employees who earn the same salary as the minimum salary for all departments.
+select concat(first_name,last_name) as name,salary from employees where salary = (select min(salary) from employees);
+
+--  Write a query to find the name (first_name, last_name), and salary of the employees whose salary is greater than the average salary of all departments.
+select concat(first_name,last_name) as name,salary from employees where salary > (select avg(salary) from employees);
+--  Write a query to find the name (first_name, last_name) and salary of the employees who earn a salary that is higher than the salary of all the Shipping Clerk (JOB_ID = 'SH_CLERK'). Sort the results of the salary of the lowest to highest.
+select concat(first_name,last_name) as name,salary from employees where salary > (select avg(salary) from employees where job_id = 'SH_CLERK')order  by salary asc;
+--  Write a query to find the name (first_name, last_name) of the employees who are not supervisors.
+select * from departments;
+select concat(first_name,last_name) as name from employees where employee_id not in (select manager_id from employees);
+--  Write a query to display the employee ID, first name, last name, and department names of all employees.
+select employee_id,first_name,last_name,(select department_name from departments where employees.department_id = departments.DEPARTMENT_ID) as department_name from employees;
+
+
+
+
+
+
+
+
+ 
+
+
+
+
 
 
 
