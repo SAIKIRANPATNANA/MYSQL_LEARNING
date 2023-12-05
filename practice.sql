@@ -1281,56 +1281,42 @@ select * from departments;
 select concat(first_name,last_name) as name from employees where employee_id not in (select manager_id from employees);
 --  Write a query to display the employee ID, first name, last name, and department names of all employees.
 select employee_id,first_name,last_name,(select department_name from departments where employees.department_id = departments.DEPARTMENT_ID) as department_name from employees;
+--  Write a query to display the employee ID, first name, last name, salary of all employees whose salary is above average for their departments.
+select employee_id, first_name, last_name, salary, department_id from employees a where a.salary > (select avg(salary) from employees b where a.department_id = b.department_id);
+select avg(salary) from employees where department_id = 10;
+select department_id,avg(salary) from employees group by department_id;
+--  Write a query to fetch even numbered records from employees table.
+set @i = 0;
+select i,employee_id from(select @i:= @i+1 as i, employee_id from employees) a where mod(a.i,2)=0;
 
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--  Write a query to find the 5th maximum salary in the employees table.
+set @i=0; 
+select salary from (select @i:= @i+1 as i,salary from(select distinct salary from employees order by salary desc)b) a where a.i=5;
+-- Write a query to find the 4th minimum salary in the employees table.
+set @i = 0;
+select salary from (select @i:= @i+1 as i,salary from(select distinct salary from employees order by salary asc)b )a where a.i=4;
+-- Write a query to select last 10 records from a table.
+select count(employee_id)-10 from employees;
+set @i = select count(employee_id)-10 from employees;
+set @i = 0;
+select * from (select @i:= @i+1 as i, employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,commission_pct,manager_id,department_id from(select * from employees)b)a where (a.i>= (select count(employee_id)-10+1 from employees) and a.i<=(select count(employee_id) from employees));
+describe employees;
+-- Write a query to list the department ID and name of all the departments where no employee is working.
+select * from employees;
+select department_id, department_name from departments where departments.department_id not in (select department_id from employees);
+--  Write a query to get 3 maximum salaries.
+set @i = 0;
+select salary from (select @i:= @i+1 as i, salary from (select distinct salary from employees order by salary desc)b)a where a.i>=1 and a.i<=3;
+-- Write a query to get 3 minimum salaries
+set @i=0;
+select salary from (select @i:=@i+1 as i, salary from (select distinct salary from employees order by salary asc)b)a where a.i>=0 and a.i<=3;
+--  Write a query to get nth max salaries of employees.
+-- nth max salary:
+set @i= 0;
+select salary from (select @i:= @i+1 as i, salary from (select distinct salary from employees order by salary desc)b)a where a.i = 5;--/n =5
+-- n max salaries:
+set @i= 0;
+select salary from (select @i:= @i+1 as i, salary from (select distinct salary from employees order by salary desc)b)a where a.i>=1 and a.i<=5;--/n=5
 
 
 
