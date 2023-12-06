@@ -1,4 +1,4 @@
--- Active: 1700974372596@@127.0.0.1@3306@mayya
+-- Active: 1700974372596@@127.0.0.1@3306
 -- creating tables:
 create DATABASE mayya;
 use mayya;
@@ -1317,6 +1317,43 @@ select salary from (select @i:= @i+1 as i, salary from (select distinct salary f
 -- n max salaries:
 set @i= 0;
 select salary from (select @i:= @i+1 as i, salary from (select distinct salary from employees order by salary desc)b)a where a.i>=1 and a.i<=5;--/n=5
+--  Write a query to find the addresses (location_id, street_address, city, state_province, country_name) of all the departments.
+select departments.department_id,departments.department_name,departments.location_id,locations.street_address, locations.city, locations.state_province, locations.country_id, countries.country_name  from departments join locations on departments.location_id = locations.location_id join countries on locations.country_id = countries.country_id;
+--  Write a query to find the name (first_name, last name), department ID and name of all the employees.
+select concat(employees.first_name,employees.last_name) as name, employees.department_id, departments.department_name from employees join departments on employees.department_id = departments.department_id;
+--  Write a query to find the name (first_name, last_name), job, department ID and name of the employees who works in London.
+select * from departments;
+select * from locations;
+select * from employees;
+select concat(employees.first_name,employees.last_name) as name, employees.job_id, employees.department_id, departments.department_name from employees join departments on employees.department_id = departments.department_id join locations on departments.location_id = locations.location_id and locations.country_id = 'UK';
+--  Write a query to find the employee id, name (last_name) along with their manager_id and name (last_name).
+select a.employee_id, concat(a.first_name, a.last_name) as employee, a.manager_id, concat(b.first_name,b.last_name) as manager from employees a join employees b on a.manager_id = b.employee_id;
+-- Write a query to find the name (first_name, last_name) and hire date of the employees who was hired after 'Jones'.
+select concat(a.first_name,a.last_name) as name, a.hire_date from employees a where a.hire_date > (select hire_date from employees where first_name like '%Jones%' or last_name like '%Jones%');
+--  Write a query to get the department name and number of employees in the department.
+use mayya;
+select departments.department_name, count(employees.employee_id) as number_of_employees from employees join  departments on employees.department_id = departments.department_id group by employees.department_id;
+--  Write a query to find the employee ID, job title, number of days between ending date and starting date for all jobs in department 90.
+select a.employee_id, a.first_name, b.job_title, DATEDIFF(c.end_date,c.start_date) as period from employees a join jobs b on a.job_id = b.job_id join job_history c on a.employee_id = c.employee_id where a.department_id = 90;
+select * from employees where employee_id = 200;
+select * from job_history ;where department_id = 90;
+--  Write a query to display the department ID and name and first name of manager.
+select a.department_id, a.department_name, b.first_name from departments a join employees b on a.manager_id = b.employee_id;
+--  Write a query to display the department name, manager name, and city.
+use mayya;
+select a.department_name, concat(b.first_name,b.last_name) as manager_name, c.city from departments a join employees b on b.employee_id = a.manager_id join locations c on a.location_id = c.location_id; 
+--  Write a query to display the job title and average salary of employees.
+select a.job_id, avg(a.salary) from employees a group by a.job_id;
+select b.job_title, avg(a.salary) from employees a  join jobs b on a.job_id = b.job_id group by a.job_id;
+-- Write a query to display job title, employee name, and the difference between salary of the employee and minimum salary for the job.
+select b.job_title, concat(a.first_name,a.last_name) as name, (a.salary-b.min_salary) as diff from employees a join jobs b on a.job_id = b.job_id;
+--  Write a query to display the job history that were done by any employee who is currently drawing more than 10000 of salary.
+select a.salary, b.* from employees a join job_history b on a.employee_id = b.employee_id where a.salary > 10000;
+select * from job_history;
+--  Write a query to display department name, name (first_name, last_name), hire date, salary of the manager for all managers whose experience is more than 15 years.
+use mayya;
+select a.department_name, concat(b.first_name,b.last_name) as name, b.hire_date, b.salary from departments a join employees b on a.manager_id = b.employee_id join job_history c on a.manager_id = c.employee_id where datediff(current_date,c.start_date)>(15*365);
+
 
 
 
