@@ -1353,6 +1353,48 @@ select * from job_history;
 --  Write a query to display department name, name (first_name, last_name), hire date, salary of the manager for all managers whose experience is more than 15 years.
 use mayya;
 select a.department_name, concat(b.first_name,b.last_name) as name, b.hire_date, b.salary from departments a join employees b on a.manager_id = b.employee_id join job_history c on a.manager_id = c.employee_id where datediff(current_date,c.start_date)>(15*365);
+CREATE database mayya;
+use mayya;
+-- Write a query to display the first day of the month (in datetime format) three months before the current month.
+select date_sub(current_date,interval 3 month);
+--  Write a query to display the last day of the month (in datetime format) three months before the current month.
+select timestamp(last_day(date_sub(current_date,interval 3 month)));
+--  Write a query to get the distinct Mondays from hire_date in employees tables.
+select hire_date,count(employee_id) from employees group by hire_date;
+select distinct DAYOFWEEK(hire_date) as day,hire_date from employees where dayofweek(hire_date)=2;
+--  Write a query to get the first day of the current year.
+select dayofweek(date_format(current_date,'%y-01-01'));
+--  Write a query to get the last day of the current year.
+select dayofweek(date_format(current_date,'%Y-12-31'));
+--  Write a query to calculate the age in year.
+select datediff(current_date, '2005-8-16')/365;
+--  Write a query to get the current date in the following format.
+-- Sample date : 2014-09-04
+-- Output : September 4, 2014
+select concat(monthname(current_date),' ',extract(day from current_date),', ',extract(year from current_date));
+--  Write a query to get the current date in Thursday September 2014 format.
+-- Thursday September 2014
+select concat(dayname(current_date),' ',monthname(current_date),' ',extract(year from current_date));
+--  Write a query to extract the year from the current date.
+select extract(year from current_date); 
+--  Write a query to get the DATE value from a given day (number in N).
+-- Sample days: 730677
+-- Output : 2000-07-11 
+set @n = 730677;
+select from_days(@n);
+--  Write a query to get the first name and hire date from employees table where hire date between '1987-06-01' and '1987-07-30'
+select first_name,hire_date from employees where hire_date >= '1987-06-01' and hire_date <= '1987-07-30';
+
+
+
+
+
+
+
+
+
+
+
 
 
 
