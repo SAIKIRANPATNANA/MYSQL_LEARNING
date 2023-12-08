@@ -726,7 +726,8 @@ use mayya;
 --
 -- Table structure for table `countries`
 --
-
+create DATABASE mayya;
+use mayya;
 CREATE TABLE IF NOT EXISTS `countries` (
   `COUNTRY_ID` varchar(2) NOT NULL,
   `COUNTRY_NAME` varchar(40) DEFAULT NULL,
@@ -1384,18 +1385,38 @@ set @n = 730677;
 select from_days(@n);
 --  Write a query to get the first name and hire date from employees table where hire date between '1987-06-01' and '1987-07-30'
 select first_name,hire_date from employees where hire_date >= '1987-06-01' and hire_date <= '1987-07-30';
-
-
-
-
-
-
-
-
-
-
-
-
+--  Write a query to display the current date in the following format.
+-- Sample output: Thursday 4th September 2014 00:00:00
+select concat(dayname(current_date),' ',extract(day from current_date),'th ', MONTHNAME(current_date),' ',extract(year from current_date), ' ', current_time);
+-- Write a query to display the current date in the following format.
+-- Sample output: 05/09/2014
+select DATE_FORMAT(current_date, '%d/%m/%y');
+-- Write a query to display the current date in the following format.
+-- Sample output: 12:00 AM Sep 5, 2014
+select concat(TIME_FORMAT(current_time, '%h:%i  %p '),substring(MONTHNAME(CURRENT_DATE),1,3),', ',extract(year from current_date));
+--  Write a query to get the firstname, lastname who joined in the month of June.
+select first_name, last_name from employees where MONTHNAME(hire_date) like '%June%';
+--  Write a query to get the years in which more than 10 employees joined.
+-- set @end = (select extract(year from max(end_date)) from job_history);
+-- select @end;
+-- set @start = ((select extract(year from min(start_date)) from job_history where start_date != 0)-1);
+-- select @start;
+-- select @start:=@start+1 as year from job_history  where (select count(a.employee_id) from job_history a where a.start_date <= @start and a.end_date >= @start)>10 and @start<=@end;
+-- select year from (select @start := @start+1  as year from job_history) where (select count(a.employee_id) from job_history a where a.start_date <= @start and a.end_date >= @start)>10;
+--  Write a query to get first name of employees who joined in 1987.
+select first_name from employees where hire_date like '%1987%';
+-- Write a query to get department name, manager name, and salary of the manager for all managers whose experience is more than 5 years.
+-- select * from departments;
+-- select * from job_history;
+-- select * from jobs;
+-- select a.department_name, concat(b.first_name, ' ', b.last_name), b.salary from departments a join employees b  on a.manager_id = b.employee_id where (select datediff(c.end_date, c.start_date) from job_history c where c.employee_id = a.manager_id limit 1)> 5*365;
+-- select datediff(c.end_date, c.start_date) from job_history c where c.employee_id = 200;
+-- select * from job_history;
+--  Write a query to get employee ID, last name, and date of first salary of the employees.
+select employee_id, last_name, DATE_ADD(hire_date,interval 1 month) from employees;
+-- Write a query to get first name, hire date and experience of the employees.
+select distinct extract(year from hire_date) from employees;
+use mayya;
 
 
 
