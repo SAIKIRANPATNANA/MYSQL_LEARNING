@@ -940,7 +940,7 @@ INSERT INTO `employees` (`EMPLOYEE_ID`, `FIRST_NAME`, `LAST_NAME`, `EMAIL`, `PHO
 ('190', 'Timothy', 'Gates', 'TGATES', '650.505.3876', '1987-09-15', 'SH_CLERK', '2900.00', '0.00', '122', '50'),
 ('191', 'Randall', 'Perkins', 'RPERKINS', '650.505.4876', '1987-09-16', 'SH_CLERK', '2500.00', '0.00', '122', '50'),
 ('192', 'Sarah', 'Bell', 'SBELL', '650.501.1876', '1987-09-17', 'SH_CLERK', '4000.00', '0.00', '123', '50'),
-('193', 'Britney', 'Everett', 'BEVERETT', '650.501.2876', '1987-09-18', 'SH_CLERK', '3900.00', '0.00', '123', '50'),
+('193d', 'Britney', 'Everett', 'BEVERETT', '650.501.2876', '1987-09-18', 'SH_CLERK', '3900.00', '0.00', '123', '50'),
 ('194', 'Samuel', 'McCain', 'SMCCAIN', '650.501.3876', '1987-09-19', 'SH_CLERK', '3200.00', '0.00', '123', '50'),
 ('195', 'Vance', 'Jones', 'VJONES', '650.501.4876', '1987-09-20', 'SH_CLERK', '2800.00', '0.00', '123', '50'),
 ('196', 'Alana', 'Walsh', 'AWALSH', '650.507.9811', '1987-09-21', 'SH_CLERK', '3100.00', '0.00', '124', '50'),
@@ -1403,9 +1403,14 @@ select first_name, last_name from employees where MONTHNAME(hire_date) like '%Ju
 -- select @start;
 -- select @start:=@start+1 as year from job_history  where (select count(a.employee_id) from job_history a where a.start_date <= @start and a.end_date >= @start)>10 and @start<=@end;
 -- select year from (select @start := @start+1  as year from job_history) where (select count(a.employee_id) from job_history a where a.start_date <= @start and a.end_date >= @start)>10;
+select distinct extract(year from hire_date) from employees;
+set @yr = (select distinct extract(year from hire_date) from employees);
+select count(employee_id) from employees where hire_date like concat('%',@yr,'%'); 
+select distinct EXTRACT(year from a.hire_date)  from employees a where ((select count(b.employee_id) from employees b where extract(year from b.hire_date) = extract (year from a.hire_date)) > 10);
+
 --  Write a query to get first name of employees who joined in 1987.
 select first_name from employees where hire_date like '%1987%';
--- Write a query to get department name, manager name, and salary of the manager for all managers whose experience is more than 5 years.
+-- //Write a query to get department name, manager name, and salary of the manager for all managers whose experience is more than 5 years.
 -- select * from departments;
 -- select * from job_history;
 -- select * from jobs;
@@ -1414,10 +1419,10 @@ select first_name from employees where hire_date like '%1987%';
 -- select * from job_history;
 --  Write a query to get employee ID, last name, and date of first salary of the employees.
 select employee_id, last_name, DATE_ADD(hire_date,interval 1 month) from employees;
--- Write a query to get first name, hire date and experience of the employees.
-select distinct extract(year from hire_date) from employees;
-use mayya;
-
-
+-- --// Write a query to get first name, hire date and experience of the employees.
+-- Write a query to get the job_id and related employee's id.
+-- Partial output of the query :
+select * from jobs;
+select a.job_id, select b.employee_id from employees where b.job_id = a.job_id fr
 
 
